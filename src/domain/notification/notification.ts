@@ -1,5 +1,7 @@
-import { Entity } from 'src/core/domain/entity';
 import { NotificationContent } from './notification-content';
+import { Entity } from '../../core/domain/entity';
+import { Guard, GuardFail, GuardSuccess } from '../../core/logic/guard';
+import { InvalidParamsError } from '../errors/invalid-params-error';
 
 interface NotificationProps {
   recipientId: string;
@@ -9,7 +11,7 @@ interface NotificationProps {
   createdAt: Date;
 }
 
-interface CreateNotificationProps {
+export interface CreateNotificationProps {
   id?: string;
   recipientId: string;
   content: string;
@@ -35,6 +37,10 @@ export class Notification extends Entity<NotificationProps> {
     return this._props.category;
   }
 
+  public get createdAt(): Date {
+    return this._props.createdAt;
+  }
+
   public set readAt(value: Date | null | undefined) {
     this._props.readAt = value;
   }
@@ -43,7 +49,33 @@ export class Notification extends Entity<NotificationProps> {
     return this._props.readAt;
   }
 
+  private static guard(
+    props: CreateNotificationProps,
+  ): GuardFail | GuardSuccess {
+    const { category, recipientId, id } = props;
+
+    const guardResults = [
+      Guard.againstEmptyString(category, 'Notification Category'),
+      Guard.againstEmptyString(recipientId, 'Recipient ID'),
+      Guard.againstNonUUID(recipientId, 'Recipient ID'),
+    ];
+
+    if (id !== undefined) {
+      guardResults.push(Guard.againstNonUUID(id, 'Notification ID'));
+    }
+
+    const combinedResult = Guard.combine(guardResults);
+
+    return combinedResult;
+  }
+
   public static create(props: CreateNotificationProps): Notification {
+    const guardResult = Notification.guard(props);
+
+    if (guardResult.isFailure()) {
+      throw InvalidParamsError.create(guardResult.message);
+    }
+
     const notificationContent = NotificationContent.create(props.content);
     const readAt = props.readAt !== undefined ? props.readAt : undefined;
     const createdAt = props.createdAt ?? new Date();
