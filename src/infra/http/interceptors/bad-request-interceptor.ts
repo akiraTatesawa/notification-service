@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { InvalidParamsError } from '../../../domain/errors/invalid-params-error';
+import { InvalidParamsError } from '@domain/errors/invalid-params-error';
 
 @Injectable()
 export class BadRequestInterceptor implements NestInterceptor {

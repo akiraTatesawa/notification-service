@@ -1,8 +1,8 @@
+import { Injectable } from '@nestjs/common';
 import { PrismaNotification } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Notification } from 'src/domain/notification/notification';
-import { NotificationRepository } from '../../../../app/ports/notification-repository';
-import { Injectable } from '@nestjs/common';
+import { Notification } from '@domain/notification/notification';
+import { NotificationRepository } from '@app/ports/notification-repository';
 
 @Injectable()
 export class PrismaNotificationRepository extends NotificationRepository {

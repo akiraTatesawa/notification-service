@@ -1,5 +1,5 @@
 import { InvalidParamsError } from '../errors/invalid-params-error';
-import { ValueObject } from '../../core/domain/value-object';
+import { ValueObject } from '@core/domain/value-object';
 
 interface NotificationContentProps {
   value: string;
