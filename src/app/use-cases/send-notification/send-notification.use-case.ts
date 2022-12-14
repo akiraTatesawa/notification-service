@@ -1,9 +1,11 @@
+import { Injectable } from '@nestjs/common';
 import { UseCase } from '../../../core/app/use-case';
 import { SendNotificationRequest } from './request';
 import { SendNotificationResponse } from './response';
 import { Notification } from '../../../domain/notification/notification';
 import { NotificationRepository } from '../../ports/notification-repository';
 
+@Injectable()
 export class SendNotification extends UseCase<
   SendNotificationRequest,
   SendNotificationResponse
