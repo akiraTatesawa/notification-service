@@ -1,6 +1,6 @@
 import { NotificationContent } from './notification-content';
-import { Entity } from '../../core/domain/entity';
-import { Guard, GuardFail, GuardSuccess } from '../../core/logic/guard';
+import { Entity } from '@core/domain/entity';
+import { Guard, GuardFail, GuardSuccess } from '@core/logic/guard';
 import { InvalidParamsError } from '../errors/invalid-params-error';
 
 interface NotificationProps {

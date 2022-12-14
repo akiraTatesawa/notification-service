@@ -1,7 +1,7 @@
 import { randUuid } from '@ngneat/falso';
 import { SendNotification } from './send-notification.use-case';
 import { SendNotificationRequest } from './request';
-import { InMemoryNotificationRepository } from '../../../infra/data/repositories/in-memory/in-memory-notification-repository';
+import { InMemoryNotificationRepository } from '@infra/data/repositories/in-memory/in-memory-notification-repository';
 
 describe('Send Notification Use Case', () => {
   let notificationRepository: InMemoryNotificationRepository;

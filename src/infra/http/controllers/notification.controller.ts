@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SendNotification } from '../../../app/use-cases/send-notification/send-notification.use-case';
+import { SendNotification } from '@app/use-cases/send-notification/send-notification.use-case';
 import { CreateNotificationDTO } from '../dtos/create-notification.dto';
 import { BadRequestInterceptor } from '../interceptors/bad-request-interceptor';
 
