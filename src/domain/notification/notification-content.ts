@@ -1,5 +1,5 @@
-import { ValueObject } from 'src/core/domain/value-object';
 import { InvalidParamsError } from '../errors/invalid-params-error';
+import { ValueObject } from '../../core/domain/value-object';
 
 interface NotificationContentProps {
   value: string;
@@ -8,6 +8,10 @@ interface NotificationContentProps {
 export class NotificationContent extends ValueObject<NotificationContentProps> {
   private constructor(props: NotificationContentProps) {
     super(props);
+  }
+
+  public get value(): string {
+    return this._props.value;
   }
 
   private static validate(content: string): boolean {
