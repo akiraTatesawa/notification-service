@@ -23,42 +23,57 @@ describe('Notification Entity', () => {
       expect(result.category).toEqual(notificationProps.category);
       expect(result.recipientId).toEqual(notificationProps.recipientId);
     });
-  });
 
-  it('Should be able to set a new date value for readAt', () => {
-    const notificationProps: CreateNotificationProps = {
-      category: 'Valid Category',
-      content: 'Valid Content',
-      recipientId: randUuid(),
-    };
-    const notification = Notification.create(notificationProps);
-    const readAtValue = new Date();
+    it('Should be able to set a new date value for readAt', () => {
+      const notificationProps: CreateNotificationProps = {
+        category: 'Valid Category',
+        content: 'Valid Content',
+        recipientId: randUuid(),
+      };
+      const notification = Notification.create(notificationProps);
+      const readAtValue = new Date();
 
-    notification.readAt = readAtValue;
+      notification.readAt = readAtValue;
 
-    expect(notification.readAt).toEqual(readAtValue);
-  });
+      expect(notification.readAt).toEqual(readAtValue);
+    });
 
-  it('Should be able to create a notification entity with its optional props', () => {
-    const notificationProps: CreateNotificationProps = {
-      category: 'Valid Category',
-      content: 'Valid Content',
-      recipientId: randUuid(),
-      createdAt: randPastDate(),
-      readAt: new Date(),
-      id: randUuid(),
-    };
+    it('Should be able to create a notification entity with its optional props', () => {
+      const notificationProps: CreateNotificationProps = {
+        category: 'Valid Category',
+        content: 'Valid Content',
+        recipientId: randUuid(),
+        createdAt: randPastDate(),
+        readAt: new Date(),
+        cancelledAt: new Date(),
+        id: randUuid(),
+      };
 
-    const result = Notification.create(notificationProps);
+      const result = Notification.create(notificationProps);
 
-    expect(result).toBeInstanceOf(Notification);
-    expect(result.id).toEqual(notificationProps.id);
-    expect(result.createdAt).toEqual(notificationProps.createdAt);
-    expect(result.readAt).toEqual(notificationProps.readAt);
-    expect(result.content).toBeInstanceOf(NotificationContent);
-    expect(result.content.value).toEqual(notificationProps.content);
-    expect(result.category).toEqual(notificationProps.category);
-    expect(result.recipientId).toEqual(notificationProps.recipientId);
+      expect(result).toBeInstanceOf(Notification);
+      expect(result.id).toEqual(notificationProps.id);
+      expect(result.createdAt).toEqual(notificationProps.createdAt);
+      expect(result.cancelledAt).toEqual(notificationProps.cancelledAt);
+      expect(result.readAt).toEqual(notificationProps.readAt);
+      expect(result.content).toBeInstanceOf(NotificationContent);
+      expect(result.content.value).toEqual(notificationProps.content);
+      expect(result.category).toEqual(notificationProps.category);
+      expect(result.recipientId).toEqual(notificationProps.recipientId);
+    });
+
+    it('Should be able to cancel a notification', () => {
+      const notificationProps: CreateNotificationProps = {
+        category: 'Valid Category',
+        content: 'Valid Content',
+        recipientId: randUuid(),
+      };
+      const notification = Notification.create(notificationProps);
+
+      notification.cancel();
+
+      expect(notification.cancelledAt).toEqual(expect.any(Date));
+    });
   });
 
   describe('Fail', () => {

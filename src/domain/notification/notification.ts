@@ -8,6 +8,7 @@ interface NotificationProps {
   content: NotificationContent;
   category: string;
   readAt?: Date | null;
+  cancelledAt?: Date | null;
   createdAt: Date;
 }
 
@@ -17,6 +18,7 @@ export interface CreateNotificationProps {
   content: string;
   category: string;
   readAt?: Date | null;
+  cancelledAt?: Date | null;
   createdAt?: Date;
 }
 
@@ -49,6 +51,14 @@ export class Notification extends Entity<NotificationProps> {
     return this._props.readAt;
   }
 
+  public get cancelledAt(): Date | null | undefined {
+    return this._props.cancelledAt;
+  }
+
+  public cancel(): void {
+    this._props.cancelledAt = new Date();
+  }
+
   private static guard(
     props: CreateNotificationProps,
   ): GuardFail | GuardSuccess {
@@ -78,6 +88,8 @@ export class Notification extends Entity<NotificationProps> {
 
     const notificationContent = NotificationContent.create(props.content);
     const readAt = props.readAt !== undefined ? props.readAt : undefined;
+    const cancelledAt =
+      props.cancelledAt !== undefined ? props.cancelledAt : undefined;
     const createdAt = props.createdAt ?? new Date();
 
     return new Notification(
@@ -86,6 +98,7 @@ export class Notification extends Entity<NotificationProps> {
         category: props.category,
         content: notificationContent,
         readAt,
+        cancelledAt,
         createdAt,
       },
       props.id,
