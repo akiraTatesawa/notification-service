@@ -29,13 +29,13 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Create Test .env file
+      - name: Create Test .env.test file
         uses: SpicyPizza/create-envfile@v1
         with:
           envkey_DATABASE_URL: postgresql://postgres:postgres@localhost:2345/notification-service-test?schema=public
-          file_name: .env
+          file_name: .env.test
           directory: .
           fail_on_empty: true
 
       - name: Run all tests
-        run: npm run test
+        run: npm run ci:test
