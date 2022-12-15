@@ -52,4 +52,16 @@ export class PrismaNotificationRepository extends NotificationRepository {
       },
     });
   }
+
+  public async findManyByRecipientId(recipientId: string): Promise<Notification[]> {
+    const rawNotifications = await this.prisma.prismaNotification.findMany({
+      where: {
+        recipientId,
+      },
+    });
+
+    return rawNotifications.map((rawNotification) =>
+      NotificationDataMapper.toDomain(rawNotification),
+    );
+  }
 }
