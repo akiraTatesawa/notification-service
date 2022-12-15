@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -55,9 +47,7 @@ export class NotificationsController {
   @ApiBadRequestResponse({
     description: 'Invalid Params',
   })
-  public async create(
-    @Body() body: CreateNotificationDTO,
-  ): Promise<NotificationViewModel> {
+  public async create(@Body() body: CreateNotificationDTO): Promise<NotificationViewModel> {
     const { category, content, recipientId } = body;
 
     const notificationDTO = await this.sendNotification.execute({

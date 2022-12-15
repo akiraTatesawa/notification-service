@@ -8,10 +8,6 @@ import { CountRecipientNotifications } from '@app/use-cases/count-recipient-noti
 @Module({
   imports: [DatabaseModule],
   controllers: [NotificationsController],
-  providers: [
-    SendNotification,
-    CancelNotification,
-    CountRecipientNotifications,
-  ],
+  providers: [SendNotification, CancelNotification, CountRecipientNotifications],
 })
 export class HTTPModule {}

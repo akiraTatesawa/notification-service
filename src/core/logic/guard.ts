@@ -26,10 +26,7 @@ export class GuardFail {
 }
 
 export class Guard {
-  public static againstEmptyString(
-    arg: string,
-    argName: string,
-  ): GuardSuccess | GuardFail {
+  public static againstEmptyString(arg: string, argName: string): GuardSuccess | GuardFail {
     if (arg.length === 0) {
       return new GuardFail(`${argName} cannot be an empty string`);
     }
@@ -37,12 +34,8 @@ export class Guard {
     return new GuardSuccess();
   }
 
-  public static againstNonUUID(
-    arg: string,
-    argName: string,
-  ): GuardSuccess | GuardFail {
-    const uuidRegex =
-      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  public static againstNonUUID(arg: string, argName: string): GuardSuccess | GuardFail {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
     if (!uuidRegex.test(arg)) {
       return new GuardFail(`${argName} must be a valid UUID`);
@@ -51,9 +44,7 @@ export class Guard {
     return new GuardSuccess();
   }
 
-  public static combine(
-    results: Array<GuardSuccess | GuardFail>,
-  ): GuardSuccess | GuardFail {
+  public static combine(results: Array<GuardSuccess | GuardFail>): GuardSuccess | GuardFail {
     const firstFailure = results.find((result) => result.isFailure());
 
     if (!firstFailure) {

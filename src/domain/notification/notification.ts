@@ -59,9 +59,7 @@ export class Notification extends Entity<NotificationProps> {
     this._props.cancelledAt = new Date();
   }
 
-  private static guard(
-    props: CreateNotificationProps,
-  ): GuardFail | GuardSuccess {
+  private static guard(props: CreateNotificationProps): GuardFail | GuardSuccess {
     const { category, recipientId, id } = props;
 
     const guardResults = [
@@ -88,8 +86,7 @@ export class Notification extends Entity<NotificationProps> {
 
     const notificationContent = NotificationContent.create(props.content);
     const readAt = props.readAt !== undefined ? props.readAt : undefined;
-    const cancelledAt =
-      props.cancelledAt !== undefined ? props.cancelledAt : undefined;
+    const cancelledAt = props.cancelledAt !== undefined ? props.cancelledAt : undefined;
     const createdAt = props.createdAt ?? new Date();
 
     return new Notification(
