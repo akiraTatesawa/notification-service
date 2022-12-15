@@ -20,6 +20,7 @@ import { CountNotificationsViewModel } from '../view-models/count-notifications.
 import { GetRecipientNotifications } from '@app/use-cases/get-recipient-notifications/get-recipient-notifications.use-case';
 import { ManyNotificationsViewModel } from '../view-models/many-notifications.view-model';
 import { ReadNotification } from '@app/use-cases/read-notification/read-notification.use-case';
+import { UnreadNotification } from '@app/use-cases/unread-notification/unread-notification.use-case';
 
 @ApiTags('notifications')
 @Controller('notifications')
@@ -34,18 +35,22 @@ export class NotificationsController {
 
   private readonly readNotification: ReadNotification;
 
+  private readonly unreadNotification: UnreadNotification;
+
   constructor(
     sendNotification: SendNotification,
     cancelNotification: CancelNotification,
     countRecipientNotifications: CountRecipientNotifications,
     getRecipientNotifications: GetRecipientNotifications,
     readNotification: ReadNotification,
+    unreadNotification: UnreadNotification,
   ) {
     this.sendNotification = sendNotification;
     this.cancelNotification = cancelNotification;
     this.countRecipientNotifications = countRecipientNotifications;
     this.getRecipientNotifications = getRecipientNotifications;
     this.readNotification = readNotification;
+    this.unreadNotification = unreadNotification;
   }
 
   @Post()
@@ -102,6 +107,23 @@ export class NotificationsController {
   })
   public async read(@Param('id') id: string): Promise<void> {
     await this.readNotification.execute({ notificationId: id });
+  }
+
+  @Patch(':id/unread')
+  @UseInterceptors(NotFoundInterceptor)
+  @ApiOkResponse({
+    description: 'Notification Unread',
+  })
+  @ApiNotFoundResponse({
+    description: 'Notification Not Found',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Notification id',
+    example: '1418e8b0-7bf7-11ed-a1eb-0242ac120002',
+  })
+  public async unread(@Param('id') id: string): Promise<void> {
+    await this.unreadNotification.execute({ notificationId: id });
   }
 
   @Get('count/from/:recipientId')
