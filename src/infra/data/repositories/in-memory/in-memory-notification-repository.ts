@@ -31,4 +31,12 @@ export class InMemoryNotificationRepository extends NotificationRepository {
 
     return NotificationDataMapper.toDomain(rawNotification);
   }
+
+  public async countManyByRecipientId(recipientId: string): Promise<number> {
+    const notificationsByRecipientId = this.notifications.filter(
+      (rawNotification) => rawNotification.recipientId === recipientId,
+    );
+
+    return notificationsByRecipientId.length;
+  }
 }
