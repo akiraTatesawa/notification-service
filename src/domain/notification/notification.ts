@@ -43,10 +43,6 @@ export class Notification extends Entity<NotificationProps> {
     return this._props.createdAt;
   }
 
-  public set readAt(value: Date | null | undefined) {
-    this._props.readAt = value;
-  }
-
   public get readAt(): Date | null | undefined {
     return this._props.readAt;
   }
@@ -57,6 +53,10 @@ export class Notification extends Entity<NotificationProps> {
 
   public cancel(): void {
     this._props.cancelledAt = new Date();
+  }
+
+  public read(): void {
+    this._props.readAt = new Date();
   }
 
   private static guard(props: CreateNotificationProps): GuardFail | GuardSuccess {

@@ -24,18 +24,16 @@ describe('Notification Entity', () => {
       expect(result.recipientId).toEqual(notificationProps.recipientId);
     });
 
-    it('Should be able to set a new date value for readAt', () => {
+    it('Should be able to read a notification', () => {
       const notificationProps: CreateNotificationProps = {
         category: 'Valid Category',
         content: 'Valid Content',
         recipientId: randUuid(),
       };
       const notification = Notification.create(notificationProps);
-      const readAtValue = new Date();
+      notification.read();
 
-      notification.readAt = readAtValue;
-
-      expect(notification.readAt).toEqual(readAtValue);
+      expect(notification.readAt).toEqual(expect.any(Date));
     });
 
     it('Should be able to create a notification entity with its optional props', () => {
