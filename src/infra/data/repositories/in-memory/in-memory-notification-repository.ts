@@ -11,4 +11,24 @@ export class InMemoryNotificationRepository extends NotificationRepository {
 
     this.notifications.push(rawNotification);
   }
+
+  public async save(notification: Notification): Promise<void> {
+    const notificationIndex = this.notifications.findIndex(
+      (rawNotification) => rawNotification.id === notification.id,
+    );
+
+    const rawNotification = NotificationDataMapper.toPersistence(notification);
+
+    this.notifications[notificationIndex] = rawNotification;
+  }
+
+  public async findById(notificationId: string): Promise<Notification | null> {
+    const rawNotification = this.notifications.find(
+      (notification) => notification.id === notificationId,
+    );
+
+    if (!rawNotification) return null;
+
+    return NotificationDataMapper.toDomain(rawNotification);
+  }
 }

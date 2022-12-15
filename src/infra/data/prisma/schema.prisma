@@ -16,6 +16,7 @@ model PrismaNotification {
   content     String
   category    String
   readAt      DateTime?
+  cancelledAt DateTime?
   createdAt   DateTime
 
   @@index([recipientId])

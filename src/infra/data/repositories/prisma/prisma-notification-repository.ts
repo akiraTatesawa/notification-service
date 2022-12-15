@@ -22,4 +22,28 @@ export class PrismaNotificationRepository extends NotificationRepository {
       data: rawNotification,
     });
   }
+
+  public async save(notification: Notification): Promise<void> {
+    const rawNotification: PrismaNotification =
+      NotificationDataMapper.toPersistence(notification);
+
+    await this.prisma.prismaNotification.update({
+      where: {
+        id: rawNotification.id,
+      },
+      data: rawNotification,
+    });
+  }
+
+  public async findById(notificationId: string): Promise<Notification | null> {
+    const rawNotification = await this.prisma.prismaNotification.findUnique({
+      where: {
+        id: notificationId,
+      },
+    });
+
+    if (!rawNotification) return null;
+
+    return NotificationDataMapper.toDomain(rawNotification);
+  }
 }

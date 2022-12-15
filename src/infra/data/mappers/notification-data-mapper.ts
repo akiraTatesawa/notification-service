@@ -9,6 +9,7 @@ export class NotificationDataMapper {
       content: domain.content.value,
       recipientId: domain.recipientId,
       readAt: domain.readAt ?? null,
+      cancelledAt: domain.cancelledAt ?? null,
       createdAt: domain.createdAt,
     };
   }
@@ -21,8 +22,9 @@ export class NotificationDataMapper {
       category: rawNotification.category,
       content: rawNotification.content,
       recipientId: rawNotification.recipientId,
-      createdAt: rawNotification.createdAt,
       readAt: rawNotification.readAt,
+      cancelledAt: rawNotification.cancelledAt,
+      createdAt: rawNotification.createdAt,
     });
 
     return notification;
