@@ -27,10 +27,8 @@ describe('Count Recipient Notifications Use Case', () => {
     const result = await sut.execute(request);
 
     expect(result.count).toEqual(1);
-    expect(result.recipientId).toEqual(request.recipientId);
     expect(result).toMatchObject({
       count: 1,
-      recipientId: request.recipientId,
     });
   });
 
@@ -42,10 +40,8 @@ describe('Count Recipient Notifications Use Case', () => {
     const result = await sut.execute(request);
 
     expect(result.count).toEqual(0);
-    expect(result.recipientId).toEqual(request.recipientId);
     expect(result).toMatchObject({
       count: 0,
-      recipientId: request.recipientId,
     });
   });
 });

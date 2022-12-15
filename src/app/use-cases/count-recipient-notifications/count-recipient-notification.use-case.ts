@@ -1,8 +1,10 @@
 import { CountNotificationsDTO } from '@app/dtos/count-notification.dto';
 import { NotificationRepository } from '@app/ports/notification-repository';
 import { UseCase } from '@core/app/use-case';
+import { Injectable } from '@nestjs/common';
 import { CountNotificationsRequest } from './request';
 
+@Injectable()
 export class CountRecipientNotifications extends UseCase<
   CountNotificationsRequest,
   CountNotificationsDTO
@@ -24,7 +26,6 @@ export class CountRecipientNotifications extends UseCase<
     );
 
     return {
-      recipientId,
       count,
     };
   }
