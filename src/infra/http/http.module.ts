@@ -6,6 +6,7 @@ import { SendNotification } from '@app/use-cases/send-notification/send-notifica
 import { CountRecipientNotifications } from '@app/use-cases/count-recipient-notifications/count-recipient-notification.use-case';
 import { GetRecipientNotifications } from '@app/use-cases/get-recipient-notifications/get-recipient-notifications.use-case';
 import { ReadNotification } from '@app/use-cases/read-notification/read-notification.use-case';
+import { UnreadNotification } from '@app/use-cases/unread-notification/unread-notification.use-case';
 
 @Module({
   imports: [DatabaseModule],
@@ -16,6 +17,7 @@ import { ReadNotification } from '@app/use-cases/read-notification/read-notifica
     CountRecipientNotifications,
     GetRecipientNotifications,
     ReadNotification,
+    UnreadNotification,
   ],
 })
 export class HTTPModule {}

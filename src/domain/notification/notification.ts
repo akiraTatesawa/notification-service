@@ -59,6 +59,10 @@ export class Notification extends Entity<NotificationProps> {
     this._props.readAt = new Date();
   }
 
+  public unread(): void {
+    this._props.readAt = null;
+  }
+
   private static guard(props: CreateNotificationProps): GuardFail | GuardSuccess {
     const { category, recipientId, id } = props;
 

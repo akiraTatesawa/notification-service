@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { NotificationNotFoundError } from '@app/errors/notification-not-found-error';
 import { NotificationRepository } from '@app/ports/notification-repository';
 import { UseCase } from '@core/app/use-case';
-import { ReadNotificationRequest } from './request';
+import { UnreadNotificationRequest } from './request';
 
 @Injectable()
-export class ReadNotification extends UseCase<ReadNotificationRequest, void> {
+export class UnreadNotification extends UseCase<UnreadNotificationRequest, void> {
   private readonly notificationRepository: NotificationRepository;
 
   constructor(notificationRepository: NotificationRepository) {
@@ -13,7 +13,7 @@ export class ReadNotification extends UseCase<ReadNotificationRequest, void> {
     this.notificationRepository = notificationRepository;
   }
 
-  public async execute(requestData: ReadNotificationRequest): Promise<void> {
+  public async execute(requestData: UnreadNotificationRequest): Promise<void> {
     const { notificationId } = requestData;
 
     const notification = await this.notificationRepository.findById(notificationId);
@@ -22,7 +22,7 @@ export class ReadNotification extends UseCase<ReadNotificationRequest, void> {
       throw NotificationNotFoundError.create();
     }
 
-    notification.read();
+    notification.unread();
 
     await this.notificationRepository.save(notification);
   }

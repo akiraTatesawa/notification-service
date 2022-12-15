@@ -24,18 +24,6 @@ describe('Notification Entity', () => {
       expect(result.recipientId).toEqual(notificationProps.recipientId);
     });
 
-    it('Should be able to read a notification', () => {
-      const notificationProps: CreateNotificationProps = {
-        category: 'Valid Category',
-        content: 'Valid Content',
-        recipientId: randUuid(),
-      };
-      const notification = Notification.create(notificationProps);
-      notification.read();
-
-      expect(notification.readAt).toEqual(expect.any(Date));
-    });
-
     it('Should be able to create a notification entity with its optional props', () => {
       const notificationProps: CreateNotificationProps = {
         category: 'Valid Category',
@@ -58,6 +46,30 @@ describe('Notification Entity', () => {
       expect(result.content.value).toEqual(notificationProps.content);
       expect(result.category).toEqual(notificationProps.category);
       expect(result.recipientId).toEqual(notificationProps.recipientId);
+    });
+
+    it('Should be able to read a notification', () => {
+      const notificationProps: CreateNotificationProps = {
+        category: 'Valid Category',
+        content: 'Valid Content',
+        recipientId: randUuid(),
+      };
+      const notification = Notification.create(notificationProps);
+      notification.read();
+
+      expect(notification.readAt).toEqual(expect.any(Date));
+    });
+
+    it('Should be able to unread a notification', () => {
+      const notificationProps: CreateNotificationProps = {
+        category: 'Valid Category',
+        content: 'Valid Content',
+        recipientId: randUuid(),
+      };
+      const notification = Notification.create(notificationProps);
+      notification.unread();
+
+      expect(notification.readAt).toEqual(null);
     });
 
     it('Should be able to cancel a notification', () => {
