@@ -5,6 +5,7 @@ import { CancelNotification } from '@app/use-cases/cancel-notification/cancel-no
 import { SendNotification } from '@app/use-cases/send-notification/send-notification.use-case';
 import { CountRecipientNotifications } from '@app/use-cases/count-recipient-notifications/count-recipient-notification.use-case';
 import { GetRecipientNotifications } from '@app/use-cases/get-recipient-notifications/get-recipient-notifications.use-case';
+import { ReadNotification } from '@app/use-cases/read-notification/read-notification.use-case';
 
 @Module({
   imports: [DatabaseModule],
@@ -14,6 +15,7 @@ import { GetRecipientNotifications } from '@app/use-cases/get-recipient-notifica
     CancelNotification,
     CountRecipientNotifications,
     GetRecipientNotifications,
+    ReadNotification,
   ],
 })
 export class HTTPModule {}

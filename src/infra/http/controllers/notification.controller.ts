@@ -19,6 +19,7 @@ import { CountRecipientNotifications } from '@app/use-cases/count-recipient-noti
 import { CountNotificationsViewModel } from '../view-models/count-notifications.view-model';
 import { GetRecipientNotifications } from '@app/use-cases/get-recipient-notifications/get-recipient-notifications.use-case';
 import { ManyNotificationsViewModel } from '../view-models/many-notifications.view-model';
+import { ReadNotification } from '@app/use-cases/read-notification/read-notification.use-case';
 
 @ApiTags('notifications')
 @Controller('notifications')
@@ -31,16 +32,20 @@ export class NotificationsController {
 
   private readonly getRecipientNotifications: GetRecipientNotifications;
 
+  private readonly readNotification: ReadNotification;
+
   constructor(
     sendNotification: SendNotification,
     cancelNotification: CancelNotification,
     countRecipientNotifications: CountRecipientNotifications,
     getRecipientNotifications: GetRecipientNotifications,
+    readNotification: ReadNotification,
   ) {
     this.sendNotification = sendNotification;
     this.cancelNotification = cancelNotification;
     this.countRecipientNotifications = countRecipientNotifications;
     this.getRecipientNotifications = getRecipientNotifications;
+    this.readNotification = readNotification;
   }
 
   @Post()
@@ -80,6 +85,23 @@ export class NotificationsController {
   })
   public async cancel(@Param('id') id: string): Promise<void> {
     await this.cancelNotification.execute({ notificationId: id });
+  }
+
+  @Patch(':id/read')
+  @UseInterceptors(NotFoundInterceptor)
+  @ApiOkResponse({
+    description: 'Notification Read',
+  })
+  @ApiNotFoundResponse({
+    description: 'Notification Not Found',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Notification id',
+    example: '1418e8b0-7bf7-11ed-a1eb-0242ac120002',
+  })
+  public async read(@Param('id') id: string): Promise<void> {
+    await this.readNotification.execute({ notificationId: id });
   }
 
   @Get('count/from/:recipientId')
