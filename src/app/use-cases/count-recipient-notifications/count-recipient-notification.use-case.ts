@@ -16,14 +16,10 @@ export class CountRecipientNotifications extends UseCase<
     this.notificationRepository = notificationRepository;
   }
 
-  public async execute(
-    requestData: CountNotificationsRequest,
-  ): Promise<CountNotificationsDTO> {
+  public async execute(requestData: CountNotificationsRequest): Promise<CountNotificationsDTO> {
     const { recipientId } = requestData;
 
-    const count = await this.notificationRepository.countManyByRecipientId(
-      recipientId,
-    );
+    const count = await this.notificationRepository.countManyByRecipientId(recipientId);
 
     return {
       count,

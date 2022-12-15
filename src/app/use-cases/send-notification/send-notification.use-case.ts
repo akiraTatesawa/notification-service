@@ -7,10 +7,7 @@ import { NotificationDTO } from '@app/dtos/notification.dto';
 import { NotificationAppMapper } from '@app/mappers/notification-app-mapper';
 
 @Injectable()
-export class SendNotification extends UseCase<
-  SendNotificationRequest,
-  NotificationDTO
-> {
+export class SendNotification extends UseCase<SendNotificationRequest, NotificationDTO> {
   private readonly notificationRepository: NotificationRepository;
 
   constructor(notificationRepository: NotificationRepository) {
@@ -18,9 +15,7 @@ export class SendNotification extends UseCase<
     this.notificationRepository = notificationRepository;
   }
 
-  public async execute(
-    requestData: SendNotificationRequest,
-  ): Promise<NotificationDTO> {
+  public async execute(requestData: SendNotificationRequest): Promise<NotificationDTO> {
     const { category, content, recipientId } = requestData;
 
     const notification = Notification.create({

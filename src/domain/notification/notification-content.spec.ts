@@ -23,9 +23,7 @@ describe('Notification Content Value Object', () => {
       };
 
       expect(result).toThrow(
-        InvalidParamsError.create(
-          'Content must be between 5 and 240 characters long',
-        ),
+        InvalidParamsError.create('Content must be between 5 and 240 characters long'),
       );
     });
 
@@ -37,9 +35,7 @@ describe('Notification Content Value Object', () => {
       };
 
       expect(result).toThrow(
-        InvalidParamsError.create(
-          'Content must be between 5 and 240 characters long',
-        ),
+        InvalidParamsError.create('Content must be between 5 and 240 characters long'),
       );
     });
   });

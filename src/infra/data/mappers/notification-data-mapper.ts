@@ -14,9 +14,7 @@ export class NotificationDataMapper {
     };
   }
 
-  public static toDomain(
-    rawNotification: NotificationPersistence,
-  ): Notification {
+  public static toDomain(rawNotification: NotificationPersistence): Notification {
     const notification = Notification.create({
       id: rawNotification.id,
       category: rawNotification.category,

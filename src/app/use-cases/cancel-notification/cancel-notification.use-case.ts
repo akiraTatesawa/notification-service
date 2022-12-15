@@ -5,10 +5,7 @@ import { NotificationNotFoundError } from '@app/errors/notification-not-found-er
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class CancelNotification extends UseCase<
-  CancelNotificationRequest,
-  void
-> {
+export class CancelNotification extends UseCase<CancelNotificationRequest, void> {
   private readonly notificationRepository: NotificationRepository;
 
   constructor(notificationRepository: NotificationRepository) {
@@ -19,9 +16,7 @@ export class CancelNotification extends UseCase<
   public async execute(requestData: CancelNotificationRequest): Promise<void> {
     const { notificationId } = requestData;
 
-    const notification = await this.notificationRepository.findById(
-      notificationId,
-    );
+    const notification = await this.notificationRepository.findById(notificationId);
 
     if (!notification) {
       throw NotificationNotFoundError.create();

@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -25,6 +17,8 @@ import { CancelNotification } from '@app/use-cases/cancel-notification/cancel-no
 import { NotFoundInterceptor } from '../interceptors/not-found-interceptor';
 import { CountRecipientNotifications } from '@app/use-cases/count-recipient-notifications/count-recipient-notification.use-case';
 import { CountNotificationsViewModel } from '../view-models/count-notifications.view-model';
+import { GetRecipientNotifications } from '@app/use-cases/get-recipient-notifications/get-recipient-notifications.use-case';
+import { ManyNotificationsViewModel } from '../view-models/many-notifications.view-model';
 
 @ApiTags('notifications')
 @Controller('notifications')
@@ -35,14 +29,18 @@ export class NotificationsController {
 
   private readonly countRecipientNotifications: CountRecipientNotifications;
 
+  private readonly getRecipientNotifications: GetRecipientNotifications;
+
   constructor(
     sendNotification: SendNotification,
     cancelNotification: CancelNotification,
     countRecipientNotifications: CountRecipientNotifications,
+    getRecipientNotifications: GetRecipientNotifications,
   ) {
     this.sendNotification = sendNotification;
     this.cancelNotification = cancelNotification;
     this.countRecipientNotifications = countRecipientNotifications;
+    this.getRecipientNotifications = getRecipientNotifications;
   }
 
   @Post()
@@ -55,9 +53,7 @@ export class NotificationsController {
   @ApiBadRequestResponse({
     description: 'Invalid Params',
   })
-  public async create(
-    @Body() body: CreateNotificationDTO,
-  ): Promise<NotificationViewModel> {
+  public async create(@Body() body: CreateNotificationDTO): Promise<NotificationViewModel> {
     const { category, content, recipientId } = body;
 
     const notificationDTO = await this.sendNotification.execute({
@@ -106,6 +102,26 @@ export class NotificationsController {
     return {
       recipientId,
       count,
+    };
+  }
+
+  @Get('from/:recipientId')
+  @ApiParam({
+    name: 'recipientId',
+    description: 'The id from a recipient',
+    example: '1418e8b0-7bf7-11ed-a1eb-0242ac120002',
+  })
+  @ApiOkResponse({
+    description: 'A list of notifications related to the recipientId',
+    type: ManyNotificationsViewModel,
+  })
+  public async getFromRecipient(
+    @Param('recipientId') recipientId: string,
+  ): Promise<ManyNotificationsViewModel> {
+    const notifications = await this.getRecipientNotifications.execute({ recipientId });
+
+    return {
+      notifications,
     };
   }
 }

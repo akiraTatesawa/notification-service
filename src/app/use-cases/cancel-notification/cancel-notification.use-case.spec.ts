@@ -31,9 +31,7 @@ describe('Cancel Notification Use Case', () => {
       await expect(sut.execute(request)).resolves.not.toThrow();
 
       expect(notificationRepository.notifications).toHaveLength(1);
-      expect(notificationRepository.notifications[0].cancelledAt).toEqual(
-        expect.any(Date),
-      );
+      expect(notificationRepository.notifications[0].cancelledAt).toEqual(expect.any(Date));
     });
   });
 
