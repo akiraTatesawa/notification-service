@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   Patch,
   Post,
@@ -22,6 +23,8 @@ import { NotificationViewModelMapper } from '../view-models/mappers/notification
 import { NotificationViewModel } from '../view-models/notification.view-model';
 import { CancelNotification } from '@app/use-cases/cancel-notification/cancel-notification.use-case';
 import { NotFoundInterceptor } from '../interceptors/not-found-interceptor';
+import { CountRecipientNotifications } from '@app/use-cases/count-recipient-notifications/count-recipient-notification.use-case';
+import { CountNotificationsViewModel } from '../view-models/count-notifications.view-model';
 
 @ApiTags('notifications')
 @Controller('notifications')
@@ -30,12 +33,16 @@ export class NotificationsController {
 
   private readonly cancelNotification: CancelNotification;
 
+  private readonly countRecipientNotifications: CountRecipientNotifications;
+
   constructor(
     sendNotification: SendNotification,
     cancelNotification: CancelNotification,
+    countRecipientNotifications: CountRecipientNotifications,
   ) {
     this.sendNotification = sendNotification;
     this.cancelNotification = cancelNotification;
+    this.countRecipientNotifications = countRecipientNotifications;
   }
 
   @Post()
@@ -77,5 +84,28 @@ export class NotificationsController {
   })
   public async cancel(@Param('id') id: string): Promise<void> {
     await this.cancelNotification.execute({ notificationId: id });
+  }
+
+  @Get('count/from/:recipientId')
+  @ApiOkResponse({
+    description: 'Count how many notifications a recipient have',
+    type: CountNotificationsViewModel,
+  })
+  @ApiParam({
+    name: 'recipientId',
+    description: 'The id from a recipient',
+    example: '1418e8b0-7bf7-11ed-a1eb-0242ac120002',
+  })
+  public async countFromRecipient(
+    @Param('recipientId') recipientId: string,
+  ): Promise<CountNotificationsViewModel> {
+    const { count } = await this.countRecipientNotifications.execute({
+      recipientId,
+    });
+
+    return {
+      recipientId,
+      count,
+    };
   }
 }
