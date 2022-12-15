@@ -1,10 +1,14 @@
 import { NotificationRepository } from '@app/ports/notification-repository';
 import { Notification } from '@domain/notification/notification';
+import { NotificationDataMapper } from '@infra/data/mappers/notification-data-mapper';
+import { NotificationPersistence } from '@infra/data/persistence/notification-persistence';
 
 export class InMemoryNotificationRepository extends NotificationRepository {
-  public notifications: Array<Notification> = [];
+  public notifications: Array<NotificationPersistence> = [];
 
   public async create(notification: Notification): Promise<void> {
-    this.notifications.push(notification);
+    const rawNotification = NotificationDataMapper.toPersistence(notification);
+
+    this.notifications.push(rawNotification);
   }
 }

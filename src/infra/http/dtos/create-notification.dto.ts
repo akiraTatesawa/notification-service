@@ -4,7 +4,7 @@ import { IsNotEmpty, IsString, IsUUID, Length } from 'class-validator';
 export class CreateNotificationDTO {
   @ApiProperty({
     name: 'content',
-    example: 'valid content',
+    example: 'Notification content',
     description: 'The content of the notification',
     required: true,
     minLength: 5,
@@ -17,7 +17,7 @@ export class CreateNotificationDTO {
 
   @ApiProperty({
     name: 'category',
-    example: 'valid category',
+    example: 'Notification category',
     description: 'The category of the notification',
     required: true,
   })

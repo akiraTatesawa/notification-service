@@ -1,8 +1,15 @@
 import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { SendNotification } from '@app/use-cases/send-notification/send-notification.use-case';
 import { CreateNotificationDTO } from '../dtos/create-notification.dto';
 import { BadRequestInterceptor } from '../interceptors/bad-request-interceptor';
+import { NotificationViewModelMapper } from '../view-models/mappers/notification-view-model-mapper';
+import { NotificationViewModel } from '../view-models/notification.view-model';
 
 @ApiTags('notifications')
 @Controller('notifications')
@@ -16,21 +23,24 @@ export class NotificationsController {
   @Post()
   @UseInterceptors(BadRequestInterceptor)
   @ApiOperation({ summary: 'Create a Notification' })
-  @ApiResponse({
-    status: 201,
+  @ApiCreatedResponse({
     description: 'Notification Created',
+    type: NotificationViewModel,
   })
-  @ApiResponse({
-    status: 400,
+  @ApiBadRequestResponse({
     description: 'Invalid Params',
   })
-  async create(@Body() body: CreateNotificationDTO) {
+  async create(
+    @Body() body: CreateNotificationDTO,
+  ): Promise<NotificationViewModel> {
     const { category, content, recipientId } = body;
 
-    await this.sendNotification.execute({
+    const notificationDTO = await this.sendNotification.execute({
       category,
       content,
       recipientId,
     });
+
+    return NotificationViewModelMapper.toHTTP(notificationDTO);
   }
 }
