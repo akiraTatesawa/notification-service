@@ -2,7 +2,9 @@ import { UseCase } from '@core/app/use-case';
 import { CancelNotificationRequest } from './request';
 import { NotificationRepository } from '@app/ports/notification-repository';
 import { NotificationNotFoundError } from '@app/errors/notification-not-found-error';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class CancelNotification extends UseCase<
   CancelNotificationRequest,
   void
