@@ -4,5 +4,6 @@ export interface NotificationPersistence {
   category: string;
   recipientId: string;
   readAt: Date | null;
+  cancelledAt: Date | null;
   createdAt: Date;
 }
